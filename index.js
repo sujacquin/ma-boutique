@@ -266,15 +266,15 @@ app.get("/product", async (req, res) => {
     }
 
     if (req.query.minPrice !== undefined) {
-      searchObject.price = {
-        $gte: req.query.minPrice
-      };
+      searchObject.price = {};
+      searchObject.price.$gte = req.query.minPrice;
     }
 
     if (req.query.maxPrice !== undefined) {
-      searchObject.price = {
-        $lte: req.query.maxPrice
-      };
+      if (searchObject.price === undefined) {
+        searchObject.price = {};
+      }
+      searchObject.price.$lte = req.query.maxPrice;
     }
 
     if (req.query.category !== undefined) {
