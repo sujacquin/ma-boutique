@@ -17,10 +17,13 @@ const Product = require('../models/product');
 
 router.post("/department/create", async (req, res) => {
     try {
+
         const newDepartment = new Department({
             title: req.body.title
         });
         await newDepartment.save();
+
+
         res.json({
             message: "new department created"
         });
