@@ -6,7 +6,7 @@ const faker = require('faker');
 const app = express();
 app.use(bodyParser.json());
 
-mongoose.connect(
+mongoose.connect(process.env.MONGODB_URI ||
     "mongodb://localhost/online-shop", {
         useNewUrlParser: true
     }
@@ -26,6 +26,6 @@ app.use(reviewRoutes);
 
 
 
-app.listen(3005, () => {
+app.listen(process.env.PORT || 3005, () => {
     console.log("Server started");
 });
