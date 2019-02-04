@@ -14,15 +14,15 @@ router.post("/product/create", async (req, res) => {
     try {
         const catOfProduct = await Category.findById(req.body.category);
         if (catOfProduct !== null) {
-            for (let i = 0; i < 1; i++) {
-                const newProduct = new Product({
-                    title: faker.fake("{{commerce.product}}"),
-                    description: req.body.description,
-                    price: faker.fake("{{commerce.price}}"),
-                    category: catOfProduct
-                });
-                await newProduct.save();
-            }
+
+            const newProduct = new Product({
+                title: req.body.title,
+                description: req.body.description,
+                price: req.body.price,
+                category: catOfProduct
+            });
+            await newProduct.save();
+
             res.json({
                 message: "new products created"
             });
