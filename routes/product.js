@@ -14,7 +14,7 @@ router.post("/product/create", async (req, res) => {
     try {
         const catOfProduct = await Category.findById(req.body.category);
         if (catOfProduct !== null) {
-            for (let i = 0; i < 95000; i++) {
+            for (let i = 0; i < 1; i++) {
                 const newProduct = new Product({
                     title: faker.fake("{{commerce.product}}"),
                     description: req.body.description,
@@ -73,7 +73,7 @@ router.get("/product", async (req, res) => {
             });
         }
 
-        if (req.query.sort === "price-des") {
+        if (req.query.sort === "price-desc") {
             search.sort({
                 price: -1
             });
@@ -91,7 +91,13 @@ router.get("/product", async (req, res) => {
             });
         }
 
-        const products = await search.skip(req.body.page).limit(20);
+        if (req.query.page) {
+            search.skip(20 * (req.query.page - 1)).limit(20);
+        } else {
+            search.skip(20 * (req.query.page - 1)).limit(20);
+        }
+
+        const products = await search;
 
         res.json(products);
     } catch (error) {

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const util = require('util');
+const faker = require('faker');
 
 const Department = require('../models/department');
 const Category = require('../models/category');
