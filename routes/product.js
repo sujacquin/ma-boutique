@@ -1,13 +1,10 @@
 const express = require("express");
 const router = express.Router();
+const faker = require('faker');
 
-const Department = require('../models/department');
-const Category = require('../models/category');
-const Product = require('../models/product');
-
-
-
-
+const Department = require("../models/department");
+const Category = require("../models/category");
+const Product = require("../models/product");
 
 //PRODUCT
 
@@ -17,15 +14,17 @@ router.post("/product/create", async (req, res) => {
     try {
         const catOfProduct = await Category.findById(req.body.category);
         if (catOfProduct !== null) {
-            const newProduct = new Product({
-                title: req.body.title,
-                description: req.body.description,
-                price: req.body.price,
-                category: catOfProduct
-            });
-            await newProduct.save();
+            for (let i = 0; i < 95000; i++) {
+                const newProduct = new Product({
+                    title: faker.fake("{{commerce.product}}"),
+                    description: req.body.description,
+                    price: faker.fake("{{commerce.price}}"),
+                    category: catOfProduct
+                });
+                await newProduct.save();
+            }
             res.json({
-                message: "new product created"
+                message: "new products created"
             });
         } else {
             res.json({
@@ -67,8 +66,8 @@ router.get("/product", async (req, res) => {
 
         const search = Product.find(searchObject);
 
+
         if (req.query.sort === "price-asc") {
-            console.log(req.query.sort);
             search.sort({
                 price: 1
             });
@@ -79,7 +78,20 @@ router.get("/product", async (req, res) => {
                 price: -1
             });
         }
-        const products = await search;
+
+        if (req.query.sort === "rating-asc") {
+            search.sort({
+                averageRating: 1
+            });
+        }
+
+        if (req.query.sort === "rating-desc") {
+            search.sort({
+                averageRating: -1
+            });
+        }
+
+        const products = await search.skip(req.body.page).limit(20);
 
         res.json(products);
     } catch (error) {

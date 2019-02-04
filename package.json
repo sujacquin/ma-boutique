@@ -12,6 +12,8 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
-    "mongoose": "^5.4.7"
+    "faker": "^4.1.0",
+    "mongoose": "^5.4.7",
+    "util": "^0.11.1"
   }
 }

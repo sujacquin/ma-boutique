@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose.model("Review", {
+const Review = mongoose.model("Review", {
     rating: {
         type: Number,
         min: 0,
